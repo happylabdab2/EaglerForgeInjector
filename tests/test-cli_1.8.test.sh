@@ -7,7 +7,7 @@ node ./efi EaglercraftX.html output.html /eaglerforge /minify /verbose
 
 if test -f output.html; then
   echo "[Success] File found"
-  else
+else
   echo "[Error] File not found"
   exit 1
 fi

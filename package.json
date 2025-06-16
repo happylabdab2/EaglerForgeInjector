@@ -18,6 +18,8 @@
     "@xmldom/xmldom": "^0.9.8"
   },
   "dependencies": {
-    "@babel/core": "^7.26.10"
+    "@babel/core": "^7.26.10",
+    "express": "^5.1.0",
+    "puppeteer": "^24.10.1"
   }
 }
