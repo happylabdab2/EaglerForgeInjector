@@ -60,10 +60,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Puppeteer test
+      - name: Run Cli test
         run: bash tests/test-cli_1.8.test.sh
 
-        
+
   Cli_1-12:
     runs-on: ubuntu-latest
 
@@ -79,5 +79,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Puppeteer test
+      - name: Run Cli test
         run: bash tests/test-cli_1.12.test.sh

@@ -28,7 +28,9 @@ const path = require('path');
     });
 
     // Launch Puppeteer
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
 
     const downloadPath = path.resolve('./');
@@ -69,7 +71,7 @@ const path = require('path');
             throw new Error('[1.12] Output file does not contain "Modapi".');
         }
     } else {
-        throw new Error('[1.12] Output file does not exist.');        
+        throw new Error('[1.12] Output file does not exist.');
     }
 
     await browser.close();
