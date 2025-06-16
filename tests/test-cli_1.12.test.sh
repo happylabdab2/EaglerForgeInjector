@@ -3,7 +3,7 @@
 set -euo pipefail
 
 wget -qO- https://github.com/Eaglercraft-Archive/unminified-eaglercraft-builds-1.12/releases/latest/download/Eaglercraft_1.12_Offline_en_US.html > Eaglercraft1.12.html
-node ./cli.js Eaglercraft1.12.html output.html /eaglerforge /minify /verbose
+node ./cli.js Eaglercraft1.12.html output.html /eaglerforge /verbose
 
 if test -f output.html; then
   echo "[Success] File found"

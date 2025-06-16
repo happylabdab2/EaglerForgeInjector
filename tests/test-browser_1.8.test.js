@@ -46,7 +46,8 @@ const path = require('path');
     await page.click('.custom-file input[type="checkbox"]:nth-child(4)');
 
     // Upload the file
-    await page.setInputFiles('#htmlFile', downloadedFilePath);
+    const elementHandle = await page.$('input[type="file"]');
+    await elementHandle.uploadFile(downloadedFilePath);
 
     // Handle dialog
     page.once('dialog', async (dialog) => {
