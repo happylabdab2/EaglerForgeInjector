@@ -2,6 +2,7 @@
 const modapi_guikit = "(" + (() => {
   // ModAPI GUI made by TheIdiotPlays
   // https://github.com/TheIdiotPlays
+  var hasAsyncMod = false;
   var splashes = [
     "Now with A.I.D.S (automatically injected dedicated server)",
     "Only causes death 90% of the time!",
@@ -47,6 +48,7 @@ const modapi_guikit = "(" + (() => {
         <button class="button" onclick="window.modapi_addmod()">Add Mod From URL</button>
         <button class="button" style="text-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5)" onclick="window.modapi_clearmods()">Clear All Mods</button>
         <button class="button _doneButton" onclick="this.parentElement.parentElement.remove();">Done</button>
+        <button class="button" style="position: fixed; bottom: 0; left: 0;" onclick="window.installAsyncLib()">Install Async.js lib</button>
       </div>
 
       <span>(reload to apply changes)</span>
@@ -169,7 +171,8 @@ const modapi_guikit = "(" + (() => {
         }
       </style>
     </div>`;
-    
+  
+
   async function fileToText(file) {
     return new Promise((res, rej) => {
       var fr = new FileReader();
@@ -201,6 +204,9 @@ const modapi_guikit = "(" + (() => {
     tbody.innerHTML = "";
     modsList.forEach((modtxt, i) => {
       if (!modtxt) { return }
+      if (modtxt.includes("AsyncSink.js")) {
+        hasAsyncMod = true;
+      }
       var hash = ModAPI.util.hashCode(modtxt);
       var tr = document.createElement("tr");
       var mod = document.createElement("td");
@@ -275,6 +281,15 @@ const modapi_guikit = "(" + (() => {
       tr.appendChild(controls);
       tbody.appendChild(tr);
     });
+
+    if (!(localStorage.getItem("nag") == null) && !hasAsyncMod && 
+    confirm("Looks like you don't have AsyncSink.js installed, which is required for lots of mods to work. Would you like to install?")) {
+      await addMod("https://raw.githubusercontent.com/EaglerForge/EaglerForgeInjector/main/AsyncSink.js");
+      window.modapi_displayModGui();
+      window.location.reload();
+    }
+
+    localStorage.setItem("nag", "nagged");
     var once = false;
     if (cb) {
       document.querySelector("#modapi_gui_container ._doneButton").addEventListener("mousedown", ()=>{
@@ -300,6 +315,14 @@ const modapi_guikit = "(" + (() => {
     await addMod(mod);
     window.modapi_displayModGui();
   }
+  window.installAsyncLib = async () => {
+    if (hasAsyncMod) {
+      alert("You already have AsyncSink.js installed!");
+      return;
+    }
+    await addMod("https://raw.githubusercontent.com/EaglerForge/EaglerForgeInjector/main/AsyncSink.js");
+    window.modapi_displayModGui();
+  }
   window.modapi_uploadmod = async () => {
     var f = document.createElement("input");
     f.type = "file";
@@ -316,6 +339,8 @@ const modapi_guikit = "(" + (() => {
     });
     f.click();
   }
+
+  window.modapi_displayModGui();
 }).toString() + ")();";
 
 if (globalThis.process) {
