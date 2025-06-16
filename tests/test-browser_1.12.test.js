@@ -49,7 +49,7 @@ const path = require('path');
     // Upload the file
     const elementHandle = await page.$('input[type="file"]');
     await elementHandle.uploadFile(downloadedFilePath);
-    
+
     // Handle dialog
     page.once('dialog', async (dialog) => {
         console.log('Dialog:', dialog.message());
@@ -60,8 +60,10 @@ const path = require('path');
     await page.click('#giveme');
 
     // Wait for download
-    await page.waitForTimeout(5000); // maybe change this to file watcher logic
-
+    await setTimeout(() => {
+        console.log('[1.8] Build process initiated, waiting for download...');
+    }, 5000);
+    
     const outputFilePath = path.resolve('output.html');
     if (fs.existsSync(outputFilePath)) {
         const content = fs.readFileSync(outputFilePath, 'utf-8');
