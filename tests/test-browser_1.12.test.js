@@ -60,11 +60,9 @@ const path = require('path');
     await page.click('#giveme');
 
     // Wait for download
-    await setTimeout(() => {
-        console.log('[1.8] Build process initiated, waiting for download...');
-    }, 5000);
-    
-    const outputFilePath = path.resolve('output.html');
+    await page.waitFor(5000);
+
+    const outputFilePath = path.resolve('processed.html');
     if (fs.existsSync(outputFilePath)) {
         const content = fs.readFileSync(outputFilePath, 'utf-8');
         if (content.includes('Modapi')) {

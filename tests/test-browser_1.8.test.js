@@ -42,6 +42,11 @@ const path = require('path');
         waitUntil: 'networkidle0'
     });
 
+    await page._client.send('Page.setDownloadBehavior', {
+        behavior: 'allow',
+        downloadPath: './'
+    })
+
     // Click a checkbox (fix selector if needed)
     await page.click('.custom-file input[type="checkbox"]:nth-child(4)');
 
@@ -59,12 +64,9 @@ const path = require('path');
     await page.click('#giveme');
 
     // Wait for download
-    await setTimeout(() => {
-        console.log('[1.8] Build process initiated, waiting for download...');
-    }
-    , 5000);
+    await page.waitFor(5000);
 
-    const outputFilePath = path.resolve('output.html');
+    const outputFilePath = path.resolve('processed.html');
     if (fs.existsSync(outputFilePath)) {
         const content = fs.readFileSync(outputFilePath, 'utf-8');
         if (content.includes('Modapi')) {
