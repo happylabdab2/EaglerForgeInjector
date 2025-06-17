@@ -34,7 +34,8 @@ const path = require('path');
     const page = await browser.newPage();
 
     const downloadPath = path.resolve('./');
-    await page._client().send('Page.setDownloadBehavior', {
+    const client = await page.target().createCDPSession();
+    await client.send('Page.setDownloadBehavior', {
         behavior: 'allow',
         downloadPath: downloadPath,
     });

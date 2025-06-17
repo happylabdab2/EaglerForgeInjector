@@ -33,7 +33,9 @@ const path = require('path');
     }); const page = await browser.newPage();
 
     const downloadPath = path.resolve('./');
-    await page._client().send('Page.setDownloadBehavior', {
+    
+    const client = await page.target().createCDPSession();
+    await client.send('Page.setDownloadBehavior', {
         behavior: 'allow',
         downloadPath: downloadPath,
     });
@@ -41,11 +43,6 @@ const path = require('path');
     await page.goto(`http://localhost:${port}/index.html`, {
         waitUntil: 'networkidle0'
     });
-
-    await page._client.send('Page.setDownloadBehavior', {
-        behavior: 'allow',
-        downloadPath: './'
-    })
 
     // Click a checkbox (fix selector if needed)
     await page.click('.custom-file input[type="checkbox"]:nth-child(4)');
