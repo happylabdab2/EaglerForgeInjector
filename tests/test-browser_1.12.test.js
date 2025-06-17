@@ -61,7 +61,7 @@ const path = require('path');
     await page.click('#giveme');
 
     // Wait for download
-    await page.waitFor(5000);
+    await new Promise((resolve) => setTimeout(resolve, 5*1000));
 
     const outputFilePath = path.resolve('processed.html');
     if (fs.existsSync(outputFilePath)) {
